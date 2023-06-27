@@ -12,6 +12,17 @@ class Balance {
         } else {
             this.#balance += amountToAdd;
         }
+
+    };
+
+    withdraw(amountToWithdraw) {
+        if (amountToWithdraw > this.#balance) {
+            alert('Not enough balance!');
+        } else if (isNaN(amountToWithdraw) || amountToWithdraw === null) {
+            throw new Error('Withdrawal must be a positive amount!');
+        } else {
+            this.#balance -= amountToWithdraw;
+        }
     };
 
     getBalance() {
