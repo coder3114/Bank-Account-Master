@@ -61,9 +61,10 @@ describe('Balance Test', () => {
             expect(result).toBe(initialBalance - amountToWithdraw);
         });
 
-        it('should return error when trying to withdraw over balance', () => {
-            testAccount = new Account(3000.00);
-            expect(() => { testAccount.debit(3500.00) }).toThrow(new Error('Not enough balance!'));
+        it('should throw an error when trying to withdraw an amount greater than current balance', () => {
+            const initialBalance = 2000;
+            const testBalance = new Balance(initialBalance);
+            expect(() => { testBalance.withdraw(3500) }).toThrow(new Error('Insufficient balance!'));
         });
 
     });

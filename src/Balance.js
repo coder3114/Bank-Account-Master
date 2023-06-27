@@ -17,7 +17,7 @@ class Balance {
 
     withdraw(amountToWithdraw) {
         if (amountToWithdraw > this.#balance) {
-            alert('Not enough balance!');
+            throw new Error('Insufficient balance!');
         } else if (isNaN(amountToWithdraw) || amountToWithdraw === null) {
             throw new Error('Withdrawal must be a positive amount!');
         } else {
