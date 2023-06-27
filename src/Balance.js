@@ -6,6 +6,14 @@ class Balance {
         this.#balance = initialBalance;
     };
 
+    add(amountToAdd) {
+        if (amountToAdd <= 0 || isNaN(amountToAdd) || amountToAdd === null) {
+            throw new Error('Deposit must be a positive amount!');
+        } else {
+            this.#balance += amountToAdd;
+        }
+    };
+
     getBalance() {
         return this.#balance;
     };
