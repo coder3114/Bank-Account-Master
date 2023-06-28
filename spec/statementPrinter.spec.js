@@ -28,4 +28,9 @@ describe('Statement printer test', () => {
         expect(result).toBe('500.00');
     });
 
+    it('should print balance amount in 2 decimal points', () => {
+        const result = StatementPrinter.formatBalance(2500);
+        expect(result).toBe('2500.00');
+    });
+
 });
