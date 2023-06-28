@@ -33,4 +33,10 @@ describe('Statement printer test', () => {
         expect(result).toBe('2500.00');
     });
 
+    it('should print a transaction in specific format as required', () => {
+        const transactionData = ['2012-01-10', 2000, null, 3000];
+        const result = StatementPrinter.printRow(transactionData);
+        expect(result).toBe('10/01/2012 || 2000.00 ||        || 3000.00')
+    });
+
 });
