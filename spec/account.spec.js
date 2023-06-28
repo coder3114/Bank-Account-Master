@@ -17,7 +17,7 @@ describe('Account Test', () => {
             getBalance: () => { },
             add: () => { },
             withdraw: () => { }
-        }
+        };
 
         testAccount = new Account(mockBalance);
     });
@@ -40,7 +40,7 @@ describe('Account Test', () => {
             testAccount.credit(mockTransaction);
 
             expect(mockBalanceSpy).toHaveBeenCalled();
-        })
+        });
 
         it('should call Balance\'s getBalance method', () => {
 
@@ -49,7 +49,7 @@ describe('Account Test', () => {
             testAccount.credit(mockTransaction);
 
             expect(mockBalanceSpy).toHaveBeenCalled();
-        })
+        });
 
         it('should call Transaction getDate when crediting the account', () => {
             // Arrange
@@ -58,6 +58,18 @@ describe('Account Test', () => {
             testAccount.credit(mockTransaction);
             // Assert
             expect(mockTransactionSpy).toHaveBeenCalled();
+        });
+    });
+
+    describe('getBalance test', () => {
+
+        it('should call Balance\'s getBalance method', () => {
+
+            const mockBalanceSpy = spyOn(mockBalance, `getBalance`)
+
+            testAccount.getBalance();
+
+            expect(mockBalanceSpy).toHaveBeenCalled();
         });
     });
 });
