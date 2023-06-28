@@ -16,5 +16,11 @@ describe('Statement printer test', () => {
     it('should print date in DD/MM/YYYY', () => {
         const result = StatementPrinter.formatDate('2012-01-10');
         expect(result).toBe('10/01/2012');
-    })
+    });
+
+    it('should print credit amount in 2 decimal points', () => {
+        const result = StatementPrinter.formatCredit(1000);
+        expect(result).toBe('1000.00');
+    });
+
 });
