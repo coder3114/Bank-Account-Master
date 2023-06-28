@@ -33,7 +33,14 @@ class StatementPrinter {
         const credit = this.formatCredit(transaction[1]);
         const debit = this.formatDebit(transaction[2]);
         const balance = this.formatBalance(transaction[3]);
+        console.log(`${date} || ${credit} || ${debit} || ${balance}`);
         return `${date} || ${credit} || ${debit} || ${balance}`;
+    };
+
+    static print(txnHistory) {
+        for (let i = txnHistory.length - 1; i >= 0; i--) {
+            this.printRow(txnHistory[i]);
+        };
     };
 }
 
