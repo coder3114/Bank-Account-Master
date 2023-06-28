@@ -33,6 +33,24 @@ describe('Account Test', () => {
             expect(mockTransactionSpy).toHaveBeenCalled();
         });
 
+        it('should call Balance\'s add method', () => {
+
+            const mockBalanceSpy = spyOn(mockBalance, `add`)
+
+            testAccount.credit(mockTransaction);
+
+            expect(mockBalanceSpy).toHaveBeenCalled();
+        })
+
+        it('should call Balance\'s getBalance method', () => {
+
+            const mockBalanceSpy = spyOn(mockBalance, `getBalance`)
+
+            testAccount.credit(mockTransaction);
+
+            expect(mockBalanceSpy).toHaveBeenCalled();
+        })
+
         it('should call Transaction getDate when crediting the account', () => {
             // Arrange
             const mockTransactionSpy = spyOn(mockTransaction, `getDate`)
@@ -41,7 +59,5 @@ describe('Account Test', () => {
             // Assert
             expect(mockTransactionSpy).toHaveBeenCalled();
         });
-
     });
-
 });
