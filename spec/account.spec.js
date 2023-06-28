@@ -72,4 +72,60 @@ describe('Account Test', () => {
             expect(mockBalanceSpy).toHaveBeenCalled();
         });
     });
+
+    describe('Debit function', () => {
+
+        it('should call Transaction getWithdrawAmount when debiting the account', () => {
+            // Arrange
+            const mockTransactionSpy = spyOn(mockTransaction, `getWithdrawAmount`)
+            // Act
+            testAccount.debit(mockTransaction);
+            // Assert
+            expect(mockTransactionSpy).toHaveBeenCalled();
+        });
+
+        it('should call Balance\'s withdraw method', () => {
+
+            const mockBalanceSpy = spyOn(mockBalance, `withdraw`)
+
+            testAccount.debit(mockTransaction);
+
+            expect(mockBalanceSpy).toHaveBeenCalled();
+        });
+
+        it('should call Balance\'s getBalance method', () => {
+
+            const mockBalanceSpy = spyOn(mockBalance, `getBalance`)
+
+            testAccount.credit(mockTransaction);
+
+            expect(mockBalanceSpy).toHaveBeenCalled();
+        });
+
+        it('should call Transaction getDate when crediting the account', () => {
+            // Arrange
+            const mockTransactionSpy = spyOn(mockTransaction, `getDate`)
+            // Act
+            testAccount.credit(mockTransaction);
+            // Assert
+            expect(mockTransactionSpy).toHaveBeenCalled();
+        });
+
+        // describe('Transaction History', () => {
+
+        //     it('should return record of an exact transaction', () => {
+
+        //         // const transaction1 = ['2012-01-14', 1000, ''];
+        //         mockTransaction.getDate() = '2012-01-14';
+        //         mockTransaction.getDepositAmount() = 1000;
+        //         mockTransaction.getWithdrawAmount() = '';
+
+        //         testAccount.credit(mockTransaction);
+
+        //         console.log(testAccount.getTransactions());
+        //         // expect(testAccount.getTransactions()).toEqual(['2012-01-14', 1000, '']);
+        //     });
+        // });
+    });
+
 });
