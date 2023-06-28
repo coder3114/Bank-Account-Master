@@ -21,6 +21,10 @@ class StatementPrinter {
         return roundedDebit;
     };
 
+    static formatBalance(balance) {
+        const roundBalance = balance.toFixed(2);
+        return roundBalance;
+    }
 }
 
 export default StatementPrinter;
