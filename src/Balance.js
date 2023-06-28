@@ -12,7 +12,6 @@ class Balance {
         } else {
             this.#balance += amountToAdd;
         }
-
     };
 
     withdraw(amountToWithdraw) {

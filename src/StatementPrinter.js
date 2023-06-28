@@ -1,8 +1,8 @@
 class StatementPrinter {
 
-
     static printHeader() {
         const headerRow = 'date       || credit  || debit  || balance';
+        console.log(headerRow);
         return headerRow;
     };
 
@@ -13,7 +13,7 @@ class StatementPrinter {
 
     static formatCredit(credit) {
         const roundedCredit = credit != null ? parseFloat(credit).toFixed(2) : '';
-        const paddedCredit = roundedCredit.padEnd(6);
+        const paddedCredit = roundedCredit.padEnd(7);
         return paddedCredit;
     };
 
@@ -34,14 +34,12 @@ class StatementPrinter {
         const debit = this.formatDebit(transaction[2]);
         const balance = this.formatBalance(transaction[3]);
         console.log(`${date} || ${credit} || ${debit} || ${balance}`);
-        return `${date} || ${credit} || ${debit} || ${balance}`;
     };
 
     static print(txnHistory) {
-        for (let i = txnHistory.length - 1; i >= 0; i--) {
-            this.printRow(txnHistory[i]);
-        };
+        this.printHeader();
+        txnHistory.forEach(transaction => this.printRow(transaction));
     };
-}
+};
 
 export default StatementPrinter;

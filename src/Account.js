@@ -10,14 +10,14 @@ class Account {
     credit(transaction) {
         const credit = transaction.getDepositAmount();
         this.#accountBalance.add(credit);
-        const tempTransaction = [transaction.getDate(), credit, '', this.#accountBalance.getBalance()];
+        const tempTransaction = [transaction.getDate(), credit, null, this.#accountBalance.getBalance()];
         this.#txnHistory.push(tempTransaction);
     };
 
     debit(transaction) {
         const debit = transaction.getWithdrawAmount();
         this.#accountBalance.withdraw(debit);
-        const tempTransaction = [transaction.getDate(), '', debit, this.#accountBalance.getBalance()];
+        const tempTransaction = [transaction.getDate(), null, debit, this.#accountBalance.getBalance()];
         this.#txnHistory.push(tempTransaction);
     };
 
@@ -27,8 +27,7 @@ class Account {
 
     getTransactions() {
         return this.#txnHistory;
-    }
-
+    };
 };
 
 export default Account;
