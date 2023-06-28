@@ -1,32 +1,37 @@
 import Transaction from "../src/Transaction.js";
 
 describe('Transaction', () => {
-    it('should create a transaction object with the provided date, deposit amount, and withdrawal amount', () => {
-        const date = new Date('14/01/2012');
-        const depositAmount = 1000;
-        const withdrawalAmount = 500;
 
-        const transaction = new Transaction(date, depositAmount, withdrawalAmount);
+    describe('Constructor', () => {
+        it('should create a transaction object with the provided date, deposit amount, and withdrawal amount', () => {
+            const date = new Date('14/01/2012');
+            const depositAmount = 1000;
+            const withdrawalAmount = 500;
 
-        expect(transaction.getDate()).toEqual(date);
-        expect(transaction.getDepositAmount()).toEqual(depositAmount);
-        expect(transaction.getWithdrawAmount()).toEqual(withdrawalAmount);
-    });
+            const transaction = new Transaction(date, depositAmount, withdrawalAmount);
 
-    it('should throw an error if date is not provided', () => {
+            expect(transaction.getDate()).toEqual(date);
+            expect(transaction.getDepositAmount()).toEqual(depositAmount);
+            expect(transaction.getWithdrawAmount()).toEqual(withdrawalAmount);
+        });
+    })
 
-        const transaction = new Transaction('', 1000, '');
+    describe('Transaction date input', () => {
+        it('should throw an error if date is not provided', () => {
 
-        expect(() => { transaction.getDate() }).toThrow(new Error("Must provide a valid date!"));
-    });
+            const transaction = new Transaction('', 1000, '');
 
-    it('should throw an error if date is not a valid date', () => {
+            expect(() => { transaction.getDate() }).toThrow(new Error("Must provide a valid date!"));
+        });
 
-        const dateTest = 'fgh';
-        const transaction = new Transaction(dateTest, 1000, '');
+        it('should throw an error if date is not a valid date', () => {
 
-        // console.log(dateTest instanceof Date);
-        expect(() => { transaction.getDate() }).toThrow(new Error("Must provide a valid date!"));
-    });
+            const dateTest = 'fgh';
+            const transaction = new Transaction(dateTest, 1000, '');
+
+            expect(() => { transaction.getDate() }).toThrow(new Error("Must provide a valid date!"));
+        });
+    })
+
 
 });
