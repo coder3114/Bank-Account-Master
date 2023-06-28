@@ -13,18 +13,28 @@ class StatementPrinter {
 
     static formatCredit(credit) {
         const roundedCredit = credit != null ? parseFloat(credit).toFixed(2) : '';
-        return roundedCredit;
+        const paddedCredit = roundedCredit.padEnd(6);
+        return paddedCredit;
     };
 
     static formatDebit(debit) {
         const roundedDebit = debit != null ? parseFloat(debit).toFixed(2) : '';
-        return roundedDebit;
+        const paddedDebit = roundedDebit.padEnd(6);
+        return paddedDebit;
     };
 
     static formatBalance(balance) {
         const roundBalance = balance.toFixed(2);
         return roundBalance;
-    }
+    };
+
+    static printRow(transaction) {
+        const date = this.formatDate(transaction[0]);
+        const credit = this.formatCredit(transaction[1]);
+        const debit = this.formatDebit(transaction[2]);
+        const balance = this.formatBalance(transaction[3]);
+        return `${date} || ${credit} || ${debit} || ${balance}`;
+    };
 }
 
 export default StatementPrinter;
