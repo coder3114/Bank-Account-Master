@@ -12,4 +12,21 @@ describe('Transaction', () => {
         expect(transaction.getDepositAmount()).toEqual(depositAmount);
         expect(transaction.getWithdrawAmount()).toEqual(withdrawalAmount);
     });
+
+    it('should throw an error if date is not provided', () => {
+
+        const transaction = new Transaction('', 1000, '');
+
+        expect(() => { transaction.getDate() }).toThrow(new Error("Must provide a valid date!"));
+    });
+
+    it('should throw an error if date is not a valid date', () => {
+
+        const dateTest = 'fgh';
+        const transaction = new Transaction(dateTest, 1000, '');
+
+        // console.log(dateTest instanceof Date);
+        expect(() => { transaction.getDate() }).toThrow(new Error("Must provide a valid date!"));
+    });
+
 });
