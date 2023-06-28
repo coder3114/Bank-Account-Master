@@ -16,6 +16,11 @@ class StatementPrinter {
         return roundedCredit;
     };
 
+    static formatDebit(debit) {
+        const roundedDebit = debit != null ? parseFloat(debit).toFixed(2) : '';
+        return roundedDebit;
+    };
+
 }
 
 export default StatementPrinter;
