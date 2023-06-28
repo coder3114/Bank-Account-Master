@@ -23,4 +23,9 @@ describe('Statement printer test', () => {
         expect(result).toBe('1000.00');
     });
 
+    it('should print debit amount in 2 decimal points', () => {
+        const result = StatementPrinter.formatCredit(500);
+        expect(result).toBe('500.00');
+    });
+
 });
