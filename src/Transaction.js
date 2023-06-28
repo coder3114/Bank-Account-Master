@@ -10,9 +10,8 @@ class Transaction {
         this.#withdrawAmount = withdrawAmount;
     };
 
-    //if (!isNaN(Date.parse(this.#date)) || isNaN(this.#date.getTimne()) || Object.prototype.toString.call(this.#date) != "[object Date]" || isNaN(this.#date)
     getDate() {
-        if (!this.#date || this.#date === null) {
+        if (!this.#date || this.#date === null || isNaN(Date.parse(this.#date))) {
             throw new Error("Must provide a valid date!");
         } else {
             return this.#date;
