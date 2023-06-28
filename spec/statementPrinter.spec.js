@@ -2,12 +2,6 @@ import StatementPrinter from "../src/StatementPrinter.js"
 
 describe('Statement printer test', () => {
 
-    let statementPrinter;
-
-    beforeEach(() => {
-        statementPrinter = new StatementPrinter();
-    });
-
     describe('Print formatted statement elements', () => {
 
         it('should print the header row as expected', () => {
@@ -37,10 +31,37 @@ describe('Statement printer test', () => {
     });
 
     describe('Print formatted transaction', () => {
+
         it('should print a transaction in specific format as required', () => {
+            // Arrange
+            let clgSpy = spyOn(console, "log");
             const transactionData = ['2012-01-10', 2000, null, 3000];
+            // Act
             const result = StatementPrinter.printRow(transactionData);
-            expect(result).toBe('10/01/2012 || 2000.00 ||        || 3000.00')
+            // Assert
+            expect(clgSpy).toHaveBeenCalledWith('10/01/2012 || 2000.00 ||        || 3000.00');
+        });
+    });
+
+    describe('Console logging', () => {
+        let clgSpy;
+        const txnHistory = [['2012-01-10', 1000, null, 1000], ['2012-01-13', 2000, null, 3000], ['2012-01-14', null, 500, 2500]];
+
+        beforeEach(() => {
+            clgSpy = spyOn(console, "log");
+        });
+
+        it('should call console.log the number of times the length of the array of transaction history is', () => {
+            StatementPrinter.print(txnHistory);
+            expect(clgSpy).toHaveBeenCalledTimes(txnHistory.length);
+        });
+
+        it('should call console.log with the correct arguments', () => {
+            StatementPrinter.print(txnHistory);
+            const formatTxnHistory = ['10/01/2012 || 1000.00 ||        || 1000.00', '13/01/2012 || 2000.00 ||        || 3000.00', '14/01/2012 ||         || 500.00 || 2500.00'];
+            for (let i = 0; i < formatTxnHistory.length; i++) {
+                expect(clgSpy).toHaveBeenCalledWith(formatTxnHistory[i]);
+            };
         });
     });
 });
