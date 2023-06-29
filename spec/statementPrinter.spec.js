@@ -1,3 +1,4 @@
+import Balance from "../src/Balance.js";
 import StatementPrinter from "../src/StatementPrinter.js"
 
 describe('Statement printer test', () => {
@@ -47,7 +48,7 @@ describe('Statement printer test', () => {
             // Act
             StatementPrinter.printRow(transactionData);
             // Assert
-            expect(clgSpy).toHaveBeenCalledWith('10/01/2012 || \x1b[32m2000.00\x1b[0m || \x1b[31m      \x1b[0m || 3000.00');
+            expect(clgSpy).toHaveBeenCalledWith('10/01/2012 || \x1b[32m2000.00 \x1b[0m|| \x1b[31m       \x1b[0m|| \x1b[32m3000.00\x1b[0m');
         });
     });
 
@@ -74,30 +75,24 @@ describe('Statement printer test', () => {
 
         it('should print credit values in green', () => {
             // Arrange
-            const transactionData = ['2012-01-10', 2000, null, 3000];
+            const transactionData = ['2012-01-13', 1000, null, 3000];
             const credit = transactionData[1];
-            const green = '\x1b[32m';
-            const reset = '\x1b[0m';
-            const greenCredit = `${green}${credit}${reset}`;
-            console.log(greenCredit);
+            const greenCredit = `\x1b[32m${credit.toFixed(2)} \x1b[0m`;
             // Act
             StatementPrinter.printRow(transactionData);
             // Assert
-            expect(clgSpy).toHaveBeenCalledWith(greenCredit);
+            expect(clgSpy).toHaveBeenCalledWith(`13/01/2012 || ${greenCredit}|| \x1b[31m       \x1b[0m|| \x1b[32m3000.00\x1b[0m`);
         });
 
         it('should print debit values in red', () => {
             // Arrange
             const transactionData = ['2012-01-14', null, 500, 2500];
             const debit = transactionData[2];
-            const red = '\x1b[31m';
-            const reset = '\x1b[0m';
-            const redDebit = `${red}${debit}${reset}`;
-            console.log(redDebit);
+            const redDebit = `\x1b[31m${debit.toFixed(2)} \x1b[0m`;
             // Act
             StatementPrinter.printRow(transactionData);
             // Assert
-            expect(clgSpy).toHaveBeenCalledWith(redDebit);
+            expect(clgSpy).toHaveBeenCalledWith(`14/01/2012 || \x1b[32m        \x1b[0m|| ${redDebit}|| \x1b[32m2500.00\x1b[0m`);
         });
     });
 });
