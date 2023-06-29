@@ -1,6 +1,15 @@
 import StatementPrinter from "../src/StatementPrinter.js"
 
 describe('Statement printer test', () => {
+    let clgSpy;
+    beforeEach(() => {
+        clgSpy = spyOn(console, "log");
+    });
+
+    afterEach(() => {
+        // Restore the original behavior of console.log
+        clgSpy.and.callThrough();
+    });
 
     describe('Print formatted statement elements', () => {
 
@@ -27,16 +36,6 @@ describe('Statement printer test', () => {
 
     describe('Print', () => {
 
-        let clgSpy;
-        beforeEach(() => {
-            clgSpy = spyOn(console, "log");
-        });
-
-        afterEach(() => {
-            // Restore the original behavior of console.log
-            clgSpy.and.callThrough();
-        });
-
         it('should print the header row as expected', () => {
             StatementPrinter.printHeader();
             expect(clgSpy).toHaveBeenCalledWith('date       || credit  || debit  || balance');
@@ -57,16 +56,6 @@ describe('Statement printer test', () => {
 
     describe('Console logging', () => {
 
-        let clgSpy;
-        beforeEach(() => {
-            clgSpy = spyOn(console, "log");
-        });
-
-        afterEach(() => {
-            // Restore the original behavior of console.log
-            clgSpy.and.callThrough();
-        });
-
         const txnHistory = [['2012-01-10', 1000, null, 1000], ['2012-01-13', 2000, null, 3000], ['2012-01-14', null, 500, 2500]];
         const formatTxnHistory = ["date       || credit  || debit  || balance", "14/01/2012 ||         || 500.00 || 2500.00", "13/01/2012 || \x1b[32m2000.00\x1b[0m ||        || 3000.00", "10/01/2012 || \x1b[32m1000.00\x1b[0m ||        || 1000.00"];
 
@@ -81,6 +70,23 @@ describe('Statement printer test', () => {
                 expect(clgSpy).toHaveBeenCalledWith(formatTxnHistory[i]);
                 return;
             };
+        });
+    });
+
+    describe('Extended criteria', () => {
+
+        it('should print credit values in green', () => {
+            // Arrange
+            const transactionData = ['2012-01-10', 2000, null, 3000];
+            const credit = transactionData[1];
+            const green = '\x1b[32m';
+            const reset = '\x1b[0m';
+            const greenCredit = `${green}${credit}${reset}`;
+            console.log(greenCredit);
+            // Act
+            StatementPrinter.printRow(transactionData);
+            // Assert
+            expect(clgSpy).toHaveBeenCalledWith(greenCredit);
         });
     });
 });
