@@ -31,7 +31,7 @@ describe('Statement printer test', () => {
 
         it('should print balance amount in 2 decimal points', () => {
             const result = StatementPrinter.formatBalance(2500);
-            expect(result.trim()).toBe('2500.00');
+            expect(result.trim()).toBe('\x1b[32m2500.00');
         });
     });
 
@@ -95,7 +95,7 @@ describe('Statement printer test', () => {
             expect(clgSpy).toHaveBeenCalledWith(`14/01/2012 || \x1b[32m        \x1b[0m|| ${redDebit}|| \x1b[32m2500.00\x1b[0m`);
         });
 
-        it('should print balance in GREEN if positive and RED if negative', () => {
+        it('should print balance in GREEN if positive', () => {
             // Arrange
             const transactionData = ['2012-01-14', null, 500, 2500];
             const balance = transactionData[3];
@@ -104,6 +104,17 @@ describe('Statement printer test', () => {
             StatementPrinter.printRow(transactionData);
             // Assert
             expect(clgSpy).toHaveBeenCalledWith(`14/01/2012 || \x1b[32m        \x1b[0m|| \x1b[31m500.00 \x1b[0m|| ${greenBalance}`);
+        });
+
+        it('should print balance in RED if negative', () => {
+            // Arrange
+            const transactionData = ['2012-01-14', null, 500, -2500];
+            const balance = transactionData[3];
+            const redBalance = `\x1b[31m${balance.toFixed(2)}\x1b[0m`;
+            // Act
+            StatementPrinter.printRow(transactionData);
+            // Assert
+            expect(clgSpy).toHaveBeenCalledWith(`14/01/2012 || \x1b[32m        \x1b[0m|| \x1b[31m500.00 \x1b[0m|| ${redBalance}`);
         });
     });
 });
