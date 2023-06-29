@@ -94,5 +94,16 @@ describe('Statement printer test', () => {
             // Assert
             expect(clgSpy).toHaveBeenCalledWith(`14/01/2012 || \x1b[32m        \x1b[0m|| ${redDebit}|| \x1b[32m2500.00\x1b[0m`);
         });
+
+        it('should print balance in GREEN if positive and RED if negative', () => {
+            // Arrange
+            const transactionData = ['2012-01-14', null, 500, 2500];
+            const balance = transactionData[3];
+            const greenBalance = `\x1b[32m${balance.toFixed(2)}\x1b[0m`;
+            // Act
+            StatementPrinter.printRow(transactionData);
+            // Assert
+            expect(clgSpy).toHaveBeenCalledWith(`14/01/2012 || \x1b[32m        \x1b[0m|| \x1b[31m500.00 \x1b[0m|| ${greenBalance}`);
+        });
     });
 });
