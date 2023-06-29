@@ -41,23 +41,20 @@ describe('Statement printer test', () => {
             expect(clgSpy).toHaveBeenCalledWith('date       || credit  || debit  || balance');
         });
 
-        describe('Print formatted transaction', () => {
-
-            it('should print a transaction in specific format as required', () => {
-                // Arrange
-                const transactionData = ['2012-01-10', 2000, null, 3000];
-                // Act
-                StatementPrinter.printRow(transactionData);
-                // Assert
-                expect(clgSpy).toHaveBeenCalledWith('10/01/2012 || \x1b[32m2000.00\x1b[0m ||        || 3000.00');
-            });
+        it('should print a transaction in specific format as required', () => {
+            // Arrange
+            const transactionData = ['2012-01-10', 2000, null, 3000];
+            // Act
+            StatementPrinter.printRow(transactionData);
+            // Assert
+            expect(clgSpy).toHaveBeenCalledWith('10/01/2012 || \x1b[32m2000.00\x1b[0m || \x1b[31m      \x1b[0m || 3000.00');
         });
     });
 
     describe('Console logging', () => {
 
         const txnHistory = [['2012-01-10', 1000, null, 1000], ['2012-01-13', 2000, null, 3000], ['2012-01-14', null, 500, 2500]];
-        const formatTxnHistory = ["date       || credit  || debit  || balance", "14/01/2012 ||         || 500.00 || 2500.00", "13/01/2012 || \x1b[32m2000.00\x1b[0m ||        || 3000.00", "10/01/2012 || \x1b[32m1000.00\x1b[0m ||        || 1000.00"];
+        const formatTxnHistory = ["date       || credit  || debit  || balance", "14/01/2012 ||         || \x1b[31m500.00\x1b[0m || 2500.00", "13/01/2012 || \x1b[32m2000.00\x1b[0m ||        || 3000.00", "10/01/2012 || \x1b[32m1000.00\x1b[0m ||        || 1000.00"];
 
         it('should call console.log one more time than length of the array of transaction history is (due to header print)', () => {
             StatementPrinter.print(txnHistory);
@@ -87,6 +84,20 @@ describe('Statement printer test', () => {
             StatementPrinter.printRow(transactionData);
             // Assert
             expect(clgSpy).toHaveBeenCalledWith(greenCredit);
+        });
+
+        it('should print debit values in red', () => {
+            // Arrange
+            const transactionData = ['2012-01-14', null, 500, 2500];
+            const debit = transactionData[2];
+            const red = '\x1b[31m';
+            const reset = '\x1b[0m';
+            const redDebit = `${red}${debit}${reset}`;
+            console.log(redDebit);
+            // Act
+            StatementPrinter.printRow(transactionData);
+            // Assert
+            expect(clgSpy).toHaveBeenCalledWith(redDebit);
         });
     });
 });
