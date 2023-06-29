@@ -4,11 +4,6 @@ describe('Statement printer test', () => {
 
     describe('Print formatted statement elements', () => {
 
-        it('should print the header row as expected', () => {
-            const result = StatementPrinter.printHeader();
-            expect(result).toBe('date       || credit  || debit  || balance');
-        });
-
         it('should print date in DD/MM/YYYY', () => {
             const result = StatementPrinter.formatDate('2012-01-10');
             expect(result).toBe('10/01/2012');
@@ -30,37 +25,61 @@ describe('Statement printer test', () => {
         });
     });
 
-    describe('Print formatted transaction', () => {
+    describe('Print', () => {
 
-        it('should print a transaction in specific format as required', () => {
-            // Arrange
-            let clgSpy = spyOn(console, "log");
-            const transactionData = ['2012-01-10', 2000, null, 3000];
-            // Act
-            const result = StatementPrinter.printRow(transactionData);
-            // Assert
-            expect(clgSpy).toHaveBeenCalledWith('10/01/2012 || 2000.00 ||        || 3000.00');
-        });
-    });
-
-    describe('Console logging', () => {
         let clgSpy;
-        const txnHistory = [['2012-01-10', 1000, null, 1000], ['2012-01-13', 2000, null, 3000], ['2012-01-14', null, 500, 2500]];
-
         beforeEach(() => {
             clgSpy = spyOn(console, "log");
         });
 
-        it('should call console.log the number of times the length of the array of transaction history is', () => {
+        afterEach(() => {
+            // Restore the original behavior of console.log
+            clgSpy.and.callThrough();
+        });
+
+        it('should print the header row as expected', () => {
+            StatementPrinter.printHeader();
+            expect(clgSpy).toHaveBeenCalledWith('date       || credit  || debit  || balance');
+        });
+
+        describe('Print formatted transaction', () => {
+
+            it('should print a transaction in specific format as required', () => {
+                // Arrange
+                const transactionData = ['2012-01-10', 2000, null, 3000];
+                // Act
+                StatementPrinter.printRow(transactionData);
+                // Assert
+                expect(clgSpy).toHaveBeenCalledWith('10/01/2012 || \x1b[32m2000.00\x1b[0m ||        || 3000.00');
+            });
+        });
+    });
+
+    describe('Console logging', () => {
+
+        let clgSpy;
+        beforeEach(() => {
+            clgSpy = spyOn(console, "log");
+        });
+
+        afterEach(() => {
+            // Restore the original behavior of console.log
+            clgSpy.and.callThrough();
+        });
+
+        const txnHistory = [['2012-01-10', 1000, null, 1000], ['2012-01-13', 2000, null, 3000], ['2012-01-14', null, 500, 2500]];
+        const formatTxnHistory = ["date       || credit  || debit  || balance", "14/01/2012 ||         || 500.00 || 2500.00", "13/01/2012 || \x1b[32m2000.00\x1b[0m ||        || 3000.00", "10/01/2012 || \x1b[32m1000.00\x1b[0m ||        || 1000.00"];
+
+        it('should call console.log one more time than length of the array of transaction history is (due to header print)', () => {
             StatementPrinter.print(txnHistory);
-            expect(clgSpy).toHaveBeenCalledTimes(txnHistory.length);
+            expect(clgSpy).toHaveBeenCalledTimes(txnHistory.length + 1);
         });
 
         it('should call console.log with the correct arguments', () => {
             StatementPrinter.print(txnHistory);
-            const formatTxnHistory = ['10/01/2012 || 1000.00 ||        || 1000.00', '13/01/2012 || 2000.00 ||        || 3000.00', '14/01/2012 ||         || 500.00 || 2500.00'];
-            for (let i = 0; i < formatTxnHistory.length; i++) {
+            for (let i = 0; i < txnHistory.length; i++) {
                 expect(clgSpy).toHaveBeenCalledWith(formatTxnHistory[i]);
+                return;
             };
         });
     });
