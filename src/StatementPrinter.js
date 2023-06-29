@@ -12,18 +12,18 @@ class StatementPrinter {
 
     static formatCredit(credit) {
         const roundedCredit = credit != null ? parseFloat(credit).toFixed(2) : '';
-        const paddedCredit = roundedCredit.padEnd(7);
+        const paddedCredit = roundedCredit.padEnd(8);
         return paddedCredit;
     };
 
     static formatDebit(debit) {
         const roundedDebit = debit != null ? parseFloat(debit).toFixed(2) : '';
-        const paddedDebit = roundedDebit.padEnd(6);
+        const paddedDebit = roundedDebit.padEnd(7);
         return paddedDebit;
     };
 
     static formatBalance(balance) {
-        const roundBalance = balance.toFixed(2);
+        const roundBalance = balance.toFixed(2)
         return roundBalance;
     };
 
@@ -32,7 +32,7 @@ class StatementPrinter {
         const credit = this.formatCredit(transaction[1]);
         const debit = this.formatDebit(transaction[2]);
         const balance = this.formatBalance(transaction[3]);
-        console.log(`${date} || \x1b[32m${credit}\x1b[0m || \x1b[31m${debit}\x1b[0m || ${balance}`);
+        console.log(`${date} || \x1b[32m${credit}\x1b[0m|| \x1b[31m${debit}\x1b[0m|| \x1b[32m${balance}\x1b[0m`);
     };
 
     static print(txnHistory) {
