@@ -23,8 +23,9 @@ class StatementPrinter {
     };
 
     static formatBalance(balance) {
-        const roundBalance = balance.toFixed(2)
-        return roundBalance;
+        const roundBalance = balance.toFixed(2);
+        const balanceColor = balance >= 0 ? '\x1b[32m' : '\x1b[31m';
+        return `${balanceColor}${roundBalance}`;
     };
 
     static printRow(transaction) {
@@ -32,7 +33,7 @@ class StatementPrinter {
         const credit = this.formatCredit(transaction[1]);
         const debit = this.formatDebit(transaction[2]);
         const balance = this.formatBalance(transaction[3]);
-        console.log(`${date} || \x1b[32m${credit}\x1b[0m|| \x1b[31m${debit}\x1b[0m|| \x1b[32m${balance}\x1b[0m`);
+        console.log(`${date} || \x1b[32m${credit}\x1b[0m|| \x1b[31m${debit}\x1b[0m|| ${balance}\x1b[0m`);
     };
 
     static print(txnHistory) {
