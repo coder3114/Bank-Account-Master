@@ -9,7 +9,6 @@ describe('Balance Test', () => {
             const testBalance = new Balance();
             // Act
             const result = testBalance.getBalance();
-
             // Assert
             expect(result).toBe(0);
         });
@@ -28,11 +27,9 @@ describe('Balance Test', () => {
             // Arrange
             const testBalance = new Balance();
             const amountToAdd = 1000;
-
             // Act
             testBalance.add(amountToAdd);
             const result = testBalance.getBalance();
-
             // Assert
             expect(result).toBe(amountToAdd);
         });
@@ -52,11 +49,9 @@ describe('Balance Test', () => {
             const initialBalance = 2000;
             const testBalance = new Balance(initialBalance);
             const amountToWithdraw = 1000;
-
             // Act
             testBalance.withdraw(amountToWithdraw);
             const result = testBalance.getBalance();
-
             // Assert
             expect(result).toBe(initialBalance - amountToWithdraw);
         });

@@ -11,16 +11,13 @@ class Transaction {
     };
 
     getDate() {
-        if (!this.#date || this.#date === null || isNaN(Date.parse(this.#date))) {
-            throw new Error("Must provide a valid date!");
-        } else {
-            return this.#date;
-        }
+        if (!this.#date || this.#date === null || isNaN(Date.parse(this.#date))) throw new Error("Must provide a valid date!");
+
+        return this.#date;
     };
 
     getDepositAmount() {
-        let amount = parseFloat(this.#depositAmount);
-        return amount;
+        return parseFloat(this.#depositAmount);
     };
 
     getWithdrawAmount() {
